@@ -41,7 +41,7 @@ Section by section:
 - **Why** — one line. Stated intent if available, inferred intent marked as inferred.
 - **Change map** — one bullet per theme (typically 2–6 themes), boldface theme name, the files in backticks, then one line of what-and-why. A reader should be able to navigate the diff from this map alone.
 - **Behavior changes** — only user-, API-, or data-visible differences, as `before → after` in prose. This is the section an agent needs most; be precise about conditions ("only when `retries > 0`").
-- **Watch out for** — at most 5, ranked, each one line: `file:line` — what could break, under what conditions. Draw from the analysis lenses. If a callout is serious, append "(worth a /code-review pass)".
+- **Watch out for** — at most 5, ranked, each one line: `file:line` — what could break, under what conditions. Draw from the analysis lenses. If a callout is serious, append "(worth a dedicated code-review pass)".
 
 ## teach-me mode
 
@@ -60,7 +60,7 @@ Audience: a domain expert about to review this PR. Zero background, no term defi
 - **Intent & approach** — what the change accomplishes and the strategy chosen. If the diff makes an implicit design choice visible (e.g. invalidation chosen over versioned keys), name the road not taken in one line — reviewers disagree with approaches more often than with lines.
 - **Delta semantics** — the contract-level truth of the change: invariants added, removed, weakened; state-machine and ordering changes; error-contract changes; compatibility with old data and in-flight requests. Include the **removed-behavior audit table**: each deleted invariant → where it was enforced → where it's re-established now, or **"unaccounted for"** in bold. This table is often the highest-value artifact in the whole output.
 - **Cross-file impact** — callers now facing new preconditions, changed return shapes, or new failure modes, as `file:line` — one-line consequence. Only entries where something actually changed for the caller.
-- **Review-focus map** — the payload. Ranked list (most severe × most likely first) of where bugs, regressions, or design problems are most likely, each entry: `file:line` — the concern — the **concrete failure scenario** ("state/inputs → wrong outcome"). These are attention pointers, not verified findings; do not present them as confirmed bugs. Cap at what's real — 3 strong entries beat 10 padded ones. Close the section by offering `/code-review` to verify the serious ones.
+- **Review-focus map** — the payload. Ranked list (most severe × most likely first) of where bugs, regressions, or design problems are most likely, each entry: `file:line` — the concern — the **concrete failure scenario** ("state/inputs → wrong outcome"). These are attention pointers, not verified findings; do not present them as confirmed bugs. Cap at what's real — 3 strong entries beat 10 padded ones. Close the section by offering a dedicated code-review pass to verify the serious ones.
 - **Open questions** — questions only the author can answer: intent ambiguities, migration/rollout ordering, "was dropping X deliberate?" Questions a reviewer would otherwise have to ask in comments.
 
 ---

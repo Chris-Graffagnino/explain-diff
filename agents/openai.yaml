@@ -1,0 +1,13 @@
+# Optional Codex-specific metadata (ignored by Claude Code and other SKILL.md
+# readers). The skill works without this file; it only adds UI polish and makes
+# the implicit-invocation intent explicit. See:
+# https://developers.openai.com/codex/skills
+interface:
+  display_name: "Explain Diff"
+  short_description: "Explain a diff, commit, branch, or PR at summary / teach-me / expert depth."
+  brand_color: "#2563EB"
+
+policy:
+  # Let Codex trigger this skill from the SKILL.md description, matching how it
+  # auto-activates in Claude Code. (This is also Codex's default.)
+  allow_implicit_invocation: true

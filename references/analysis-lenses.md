@@ -2,7 +2,7 @@
 
 Run these during Step 3 (build understanding), before writing anything. Each lens produces raw material: the change map comes from lens 1, the risk callouts and review-focus map come from lenses 2–7. Not every lens fires on every diff — a docs-only change needs none of them — but *deciding* a lens doesn't apply should take a moment of actual looking, not a reflex.
 
-These lenses direct attention; they do not produce verified findings. Anything serious they surface becomes a "watch out for" / review-focus entry with a concrete failure scenario, plus a suggestion to run `/code-review` if verification matters.
+These lenses direct attention; they do not produce verified findings. Anything serious they surface becomes a "watch out for" / review-focus entry with a concrete failure scenario, plus a suggestion to run a dedicated code-review pass if verification matters.
 
 ## 1. Change taxonomy
 
@@ -73,7 +73,7 @@ Compare what changed in the code against what changed in the tests:
 
 ## 7. Hidden-risk heuristics
 
-A quick scan for classic footguns *introduced by the diff* — keep this light; `/code-review` owns deep bug-hunting:
+A quick scan for classic footguns *introduced by the diff* — keep this light; a dedicated code-review pass owns deep bug-hunting:
 
 off-by-one at loop/slice boundaries · falsy-zero or empty-string treated as missing · missing `await` / unhandled promise · error swallowed in a broad catch · wrong variable after copy-paste · mutable default arguments (Python) · closure capturing a loop variable · `==` coercion (JS) · unanchored or unescaped regex · timezone/DST assumptions · float equality · resource acquired but not released on the error path.
 

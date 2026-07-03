@@ -1,6 +1,6 @@
 ---
 name: explain-diff
-description: Explains a code diff, commit, branch, or PR at three depths — summary (quick triage for humans or AI agents), teach-me (teaching walkthrough for novice coders), or expert (dense expert analysis with a review-focus map highlighting likely bugs, regressions, and design problems). Use when the user asks to "explain this diff", "explain this PR", "what does this change do", "walk me through these changes", or wants to understand a code change before reviewing or merging it. Supports --html for a rich interactive page and "help" for usage. Do NOT use for verified bug-hunting or posting review verdicts — use /code-review for that.
+description: Explains a code diff, commit, branch, or PR at three depths — summary (quick triage for humans or AI agents), teach-me (teaching walkthrough for novice coders), or expert (dense expert analysis with a review-focus map highlighting likely bugs, regressions, and design problems). Use when the user asks to "explain this diff", "explain this PR", "what does this change do", "walk me through these changes", or wants to understand a code change before reviewing or merging it. Supports --html for a rich interactive page and "help" for usage. Do NOT use for verified bug-hunting or posting review verdicts — hand off to a dedicated code-review pass for that (e.g. /code-review in Claude Code).
 metadata:
   author: chrisgraffagnino
   version: 1.0.0
@@ -10,7 +10,7 @@ metadata:
 
 Build a genuine understanding of a code change, then explain it at the depth the reader needs. The explanation serves two audiences at once: a human trying to understand what changed and why, and a reviewer (human or AI) deciding where to focus attention to catch bugs, regressions, and design problems.
 
-This skill **explains and directs attention**. It does not produce verified bug findings — when a risk callout deserves confirmation, recommend `/code-review` as the follow-up.
+This skill **explains and directs attention**. It does not produce verified bug findings — when a risk callout deserves confirmation, recommend a dedicated code-review pass as the follow-up (`/code-review` in Claude Code).
 
 ## Step 0: Help
 
@@ -50,8 +50,9 @@ Examples:
   /explain-diff expert main..HEAD   expert analysis of the branch
   /explain-diff summary src/auth/   what changed under src/auth/
 
-Related: /code-review finds and verifies bugs; explain-diff builds
-understanding and points at where the risk concentrates.
+Related: a dedicated code-review command (e.g. /code-review in Claude
+Code) finds and verifies bugs; explain-diff builds understanding and
+points at where the risk concentrates.
 ```
 
 ## Step 1: Parse arguments
@@ -97,7 +98,7 @@ Produce the markdown explanation in the terminal as usual, **and** write a singl
 
 ## Honesty rules
 
-- **Never present a suspicion as a confirmed bug.** Risk callouts are attention pointers. When one looks serious, say so and recommend `/code-review` to verify it.
+- **Never present a suspicion as a confirmed bug.** Risk callouts are attention pointers. When one looks serious, say so and recommend a dedicated code-review pass to verify it (`/code-review` in Claude Code).
 - **Distinguish stated intent from inferred intent.** "The PR description says…" vs "This appears to be…".
 - **Don't invent content to fill sections.** Empty "Behavior changes" or "Watch out for" sections should say "None" — a reader who learns to trust that will move faster.
 - **Quote real code.** Every claim about what the code does should survive the reader opening the file at the cited line.
@@ -114,13 +115,13 @@ Result: markdown walkthrough plus the HTML file path.
 
 **Example 3** — User says: "/explain-diff expert before I review this"
 Actions: gather the working diff, run all lenses with emphasis on removed-behavior and cross-file impact, write **expert** output.
-Result: delta semantics plus a ranked review-focus map; ends by offering `/code-review` to verify the serious callouts.
+Result: delta semantics plus a ranked review-focus map; ends by offering a dedicated code-review pass to verify the serious callouts.
 
 ## Troubleshooting
 
 **Empty diff** — Cause: clean working tree and no commits ahead of upstream. Solution: report exactly what you compared (e.g. "no diff between HEAD and origin/main, working tree clean") and ask what the user wants explained.
 
-**`gh` fails for a PR target** — Cause: not authenticated or no remote. Solution: say so, suggest `! gh auth login`, and offer to explain a local range instead.
+**`gh` fails for a PR target** — Cause: not authenticated or no remote. Solution: say so, suggest running `gh auth login`, and offer to explain a local range instead.
 
 **Diff too large to explain line-by-line** — Cause: 2,000+ changed lines or generated/vendored files. Solution: exclude lockfiles and generated code from the narrative (note that you did), explain at theme level, and offer to zoom into any theme.
 
