@@ -84,6 +84,7 @@ Both tools trigger the skill implicitly when your request matches its descriptio
 ```
 explain-diff/                       # this repo — the skill directory itself
 ├── SKILL.md                        # skill entry point and step-by-step procedure (shared)
+├── AGENTS.md                       # project instructions pointing at the skill (Codex)
 ├── references/
 │   ├── analysis-lenses.md          # the 7 lenses run while building understanding
 │   └── output-formats.md           # per-mode output contract + HTML spec
